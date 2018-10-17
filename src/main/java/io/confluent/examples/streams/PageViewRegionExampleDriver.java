@@ -86,11 +86,13 @@ public class PageViewRegionExampleDriver {
       for (final String user : users) {
         userProfileBuilder.set("experience", "some");
         userProfileBuilder.set("region", regions[random.nextInt(regions.length)]);
+        System.out.println("+++ user data: user = " + user + " region = " + regions[random.nextInt(regions.length)]);
         producer.send(new ProducerRecord<>(userProfilesTopic, user, userProfileBuilder.build()));
         // For each user generate some page views
         for (int i=0; i<random.nextInt(10); i++) {
           pageViewBuilder.set("user", user);
           pageViewBuilder.set("page", "index.html");
+          System.out.println("+++ record data: user = " + user + " page index = " + Integer.toString(i));
           final GenericData.Record record = pageViewBuilder.build();
           producer.send(new ProducerRecord<>(pageViewsTopic, null, record));
         }
